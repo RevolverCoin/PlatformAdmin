@@ -2,7 +2,9 @@ import { fromJS } from 'immutable'
 
 export const INITIAL_STATE = fromJS({
   info:{
-    height: null
+    height: null,
+    serviceAddress: null,
+    serviceBalance: null
   },
   addresses: null
 })

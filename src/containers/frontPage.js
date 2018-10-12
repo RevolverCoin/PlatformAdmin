@@ -106,13 +106,22 @@ class FrontPage extends React.Component {
           <Col md="7">
             <ContainerBlock>
               <Row>
-                <Col md="2">Block</Col>
-                <Col md="2">#{this.props.blockHeight}</Col>
+                <Col md="3">Block</Col>
+                <Col md="8">#{this.props.blockHeight}</Col>
               </Row>
               <Row>
-                <Col md="2">Total Supply</Col>
-                <Col md="2">{this.props.totalSupply}</Col>
+                <Col md="3">Total Supply</Col>
+                <Col md="8">{this.props.blockHeight * 2}</Col>
               </Row>
+              <Row>
+                <Col md="3">Service Address</Col>
+                <Col md="8"><div>{this.props.serviceAddress}</div></Col>
+              </Row>
+              <Row>
+                <Col md="3">Service Balance</Col>
+                <Col md="8">{this.props.serviceBalance}</Col>
+              </Row>
+
             </ContainerBlock>
 
             <ContainerAddresses>
@@ -166,10 +175,14 @@ const mapStateToProps = state => {
   const info = root && root.get('info')
 
   const height = info && info.get('height')
+  const serviceAddress = info && info.get('serviceAddress')
+  const serviceBalance = info && info.get('serviceBalance')
 
   return { 
     addresses: addresses && addresses.toJS(),
-    blockHeight: height
+    blockHeight: height,
+    serviceAddress,
+    serviceBalance
   }
 }
 
