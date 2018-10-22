@@ -5,6 +5,7 @@ import './App.css';
 
 import FrontPage from './containers/frontPage'
 import SettingsPage from './containers/settingsPage'
+import TransactionsPage from './containers/transactionsPage'
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
       <div className="App">
           <Route exact path="/" component={FrontPage}/>
           <Route path="/settings" key="settings" component={SettingsPage} />
+          <Route path="/address" key="transactions" component={TransactionsPage} />
       </div>
     );
   }

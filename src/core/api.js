@@ -42,3 +42,15 @@ export function send(fromAddress, toAddress, amount) {
       body: JSON.stringify({fromAddress, toAddress, amount}),
     }))
 }
+
+export function getTransactions(address)
+{
+  return (
+    fetch(`${url}/blockchain/${address}/transactions`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }))
+
+}

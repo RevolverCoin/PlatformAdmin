@@ -6,7 +6,8 @@ export const INITIAL_STATE = fromJS({
     serviceAddress: null,
     serviceBalance: null
   },
-  addresses: null
+  addresses: null,
+  current: null
 })
 
 export function handleGetAddressesResult(state, data) {
@@ -17,3 +18,8 @@ export function handleGetInfoResult(state, data)
 {
   return state.set('info', fromJS(data))
 }
+
+export function handleTransactionsResult(state,data)
+{
+  return state.set('current', fromJS(data))
+} 

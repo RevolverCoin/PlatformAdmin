@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 
-import { getInfo, getAddresses, getBalance, send } from '../core/api'
+import { getInfo, getAddresses, getBalance, send, getTransactions } from '../core/api'
 
 import { promiseChainify } from '../utils/utils'
 
@@ -45,5 +45,22 @@ export function sendAction(fromAddress, toAddress, amount) {
     
     // reload addresses
     dispatch(getAddressesAction())
+  }
+}
+
+/**
+ * getTransactionsAction
+ */
+export function getTransactionsAction(address)
+{
+  return async dispatch => {
+    // send
+    const transactions = await getTransactions(address)
+    const response = await transactions.json()
+
+    dispatch({
+      type: types.GET_TRANSACTIONS_RESULT,
+      data: response.data,
+    })
   }
 }

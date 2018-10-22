@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import MUIContainer from 'muicss/lib/react/container'
 import MUIRow from 'muicss/lib/react/row'
@@ -94,7 +95,7 @@ class FrontPage extends React.Component {
     if (this.props.addresses) {
       addressesList = this.props.addresses.map(item => (
         <AddressRow key={item.address}>
-          <Col md="6">{item.address}</Col>
+          <Col md="6"><Link to={'/address/' + item.address}>{item.address}</Link></Col>
           <Col md="6">{item.balance}</Col>
         </AddressRow>
       ))

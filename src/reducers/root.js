@@ -8,6 +8,9 @@ export default (state = core.INITIAL_STATE, action) => {
     case types.GET_INFO_RESULT:
       return core.handleGetInfoResult(state, action.data)
 
+    case types.GET_TRANSACTIONS_RESULT:
+      return core.handleTransactionsResult(state, action.data)
+
     default:
       return state
   }
