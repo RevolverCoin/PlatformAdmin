@@ -8,7 +8,13 @@ import MUICol from 'muicss/lib/react/col'
 
 import styled from 'styled-components'
 
-import { getAddressesAction, sendAction, getInfoAction } from '../actions/actions'
+import { 
+  getAddressesAction, 
+  sendAction, 
+  getInfoAction, 
+  supportAction, 
+  setTypeAction,
+  removeSupportAction } from '../actions/actions'
 
 const Container = styled(MUIContainer)``
 const ContainerAddresses = styled(MUIContainer)`
@@ -40,30 +46,32 @@ class FrontPage extends React.Component {
       fromAddress: '',
       toAddress: '',
       amount: 0,
+      supportFromAddress: '',
+      supportToAddress: '',
+      setTypeAddress: '',
+      setTypeSelect: 'Supporter'
     }
 
     this.onSend = this.onSend.bind(this)
+    this.onSupport = this.onSupport.bind(this)
+    this.onSetType = this.onSetType.bind(this)
+    this.onRemoveSupport = this.onRemoveSupport.bind(this)
 
-    this.handleFromAddressChange = this.handleFromAddressChange.bind(this)
-    this.handleToAddressChange = this.handleToAddressChange.bind(this)
-    this.handleAmountChange = this.handleAmountChange.bind(this)
-  
-    this.interval = null;
+    this.handleInputChange = this.handleInputChange.bind(this)
+
+    this.interval = null
   }
 
   componentDidMount() {
     this.props.loadAddresses()
 
-    this.interval = setInterval( ()=>{
-
+    this.interval = setInterval(() => {
       this.props.getInfo()
-
-    }, 5000);
+    }, 5000)
   }
 
   componentWillUnmount() {
-    if (this.interval)
-      clearInterval(this.interval)
+    if (this.interval) clearInterval(this.interval)
   }
 
   componentDidUpdate(prevProps) {
@@ -76,17 +84,20 @@ class FrontPage extends React.Component {
     this.props.send(this.state.fromAddress, this.state.toAddress, this.state.amount)
   }
 
-  handleFromAddressChange(event) {
-    this.setState({ fromAddress: event.target.value })
+  onSupport() {
+    this.props.support(this.state.supportFromAddress, this.state.supportToAddress)
   }
 
-  handleToAddressChange(event) {
-    this.setState({ toAddress: event.target.value })
+  onRemoveSupport() {
+    this.props.removeSupport(this.state.supportFromAddress, this.state.supportToAddress)
   }
 
-  handleAmountChange(event) {
-    let value = event.target.value
-    this.setState({ amount: value })
+  onSetType() {
+    this.props.setType(this.state.setTypeAddress, this.state.setTypeSelect)
+  }
+
+  handleInputChange(event) {
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   render() {
@@ -95,8 +106,14 @@ class FrontPage extends React.Component {
     if (this.props.addresses) {
       addressesList = this.props.addresses.map(item => (
         <AddressRow key={item.address}>
-          <Col md="6"><Link to={'/address/' + item.address}>{item.address}</Link></Col>
-          <Col md="6">{item.balance}</Col>
+          <Col md="5">
+            <Link to={'/address/' + item.address}>{item.address}</Link>
+          </Col>
+          <Col md="2">{item.type}</Col>
+          <Col md="2">{item.balance}</Col>
+          <Col md="3">
+            {item.sing}/{item.sed}
+          </Col>
         </AddressRow>
       ))
     }
@@ -116,19 +133,22 @@ class FrontPage extends React.Component {
               </Row>
               <Row>
                 <Col md="3">Service Address</Col>
-                <Col md="8"><div>{this.props.serviceAddress}</div></Col>
+                <Col md="8">
+                  <div>{this.props.serviceAddress}</div>
+                </Col>
               </Row>
               <Row>
                 <Col md="3">Service Balance</Col>
                 <Col md="8">{this.props.serviceBalance}</Col>
               </Row>
-
             </ContainerBlock>
 
             <ContainerAddresses>
               <Row>
-                <Col md="6">Address</Col>
-                <Col md="6">Balances</Col>
+                <Col md="5">Address</Col>
+                <Col md="2">Type</Col>
+                <Col md="2">Balance</Col>
+                <Col md="3">Sing/Sed</Col>
               </Row>
 
               {addressesList}
@@ -140,25 +160,106 @@ class FrontPage extends React.Component {
               <Row>
                 <Col md="3">From</Col>
                 <Col md="9">
-                  <Input value={this.state.fromAddress} onChange={this.handleFromAddressChange} />
+                  <Input
+                    name="fromAddress"
+                    value={this.state.fromAddress}
+                    onChange={this.handleInputChange}
+                  />
                 </Col>
               </Row>
               <Row>
                 <Col md="3">To</Col>
                 <Col md="9">
-                  <Input value={this.state.toAddress} onChange={this.handleToAddressChange} />
+                  <Input
+                    name="toAddress"
+                    value={this.state.toAddress}
+                    onChange={this.handleInputChange}
+                  />
                 </Col>
               </Row>
               <Row>
                 <Col md="3">Amount</Col>
                 <Col md="9">
-                  <Input value={this.state.amount} onChange={this.handleAmountChange} />
+                  <Input
+                    name="amount"
+                    value={this.state.amount}
+                    onChange={this.handleInputChange}
+                  />
                 </Col>
               </Row>
 
               <Row>
                 <Col md="12">
                   <button onClick={this.onSend}>Send</button>
+                </Col>
+              </Row>
+            </Container>
+
+            {/* *************************************************** */}
+            {/* Support */}
+            {/* *************************************************** */}
+            <h2>Support</h2>
+            <Container>
+              <Row>
+                <Col md="3">From</Col>
+                <Col md="9">
+                  <Input
+                    name="supportFromAddress"
+                    value={this.state.supportFromAddress}
+                    onChange={this.handleInputChange}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="3">To</Col>
+                <Col md="9">
+                  <Input
+                    name="supportToAddress"
+                    value={this.state.supportToAddress}
+                    onChange={this.handleInputChange}
+                  />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col md="3">
+                  <button onClick={this.onSupport}>Support</button>
+                </Col>
+                <Col md="3">
+                  <button onClick={this.onRemoveSupport}>Remove Support</button>
+                </Col>
+              </Row>
+            </Container>
+
+            {/* *************************************************** */}
+            {/* Change Type */}
+            {/* *************************************************** */}
+            <h2>Type</h2>
+            <Container>
+              <Row>
+                <Col md="3">Address</Col>
+                <Col md="9">
+                  <Input
+                    name="setTypeAddress"
+                    value={this.state.setTypeAddress}
+                    onChange={this.handleInputChange}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="3">Type</Col>
+                <Col md="9">
+                  <select name='setTypeSelect' value={this.state.setTypeSelect} onChange={this.handleInputChange}>
+                    <option value="Supporter">Supporter</option>
+                    <option value="Author">Author</option>
+                    <option value="Generator">Generator</option>
+                  </select>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col md="12">
+                  <button onClick={this.onSetType}>Set Type</button>
                 </Col>
               </Row>
             </Container>
@@ -179,11 +280,11 @@ const mapStateToProps = state => {
   const serviceAddress = info && info.get('serviceAddress')
   const serviceBalance = info && info.get('serviceBalance')
 
-  return { 
+  return {
     addresses: addresses && addresses.toJS(),
-    blockHeight: height,
+    blockHeight: height && height - 1,
     serviceAddress,
-    serviceBalance
+    serviceBalance,
   }
 }
 
@@ -192,12 +293,24 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getAddressesAction())
   },
 
-  send(fromAddress, toAddress, amount) {
-    dispatch(sendAction(fromAddress, toAddress, amount))
+  send(addressFrom, addressTo, amount) {
+    dispatch(sendAction(addressFrom, addressTo, amount))
+  },
+
+  support(addressFrom, addressTo) {
+    dispatch(supportAction(addressFrom, addressTo))
+  },
+  
+  removeSupport(addressFrom, addressTo) {
+    dispatch(removeSupportAction(addressFrom, addressTo))
   },
 
   getInfo() {
     dispatch(getInfoAction())
+  },
+
+  setType(address, type) {
+    dispatch(setTypeAction(address, type))
   }
 })
 

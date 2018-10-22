@@ -7,7 +7,9 @@ export const INITIAL_STATE = fromJS({
     serviceBalance: null
   },
   addresses: null,
-  current: null
+  transactions: null,
+  supports: null,
+
 })
 
 export function handleGetAddressesResult(state, data) {
@@ -21,5 +23,10 @@ export function handleGetInfoResult(state, data)
 
 export function handleTransactionsResult(state,data)
 {
-  return state.set('current', fromJS(data))
+  return state.set('transactions', fromJS(data))
 } 
+
+export function handleSupportsResult(state,data)
+{
+  return state.set('supports', fromJS(data))
+}

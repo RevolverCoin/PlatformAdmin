@@ -32,14 +32,36 @@ export function getBalance(address) {
     }))
 }
 
-export function send(fromAddress, toAddress, amount) {
+export function send(addressFrom, addressTo, amount) {
   return (
     fetch(`${url}/blockchain/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({fromAddress, toAddress, amount}),
+      body: JSON.stringify({addressFrom, addressTo, amount}),
+    }))
+}
+
+export function support(addressFrom, addressTo) {
+  return (
+    fetch(`${url}/support`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({addressFrom, addressTo}),
+    }))
+}
+
+export function removeSupport(addressFrom, addressTo) {
+  return (
+    fetch(`${url}/support`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({addressFrom, addressTo}),
     }))
 }
 
@@ -54,3 +76,38 @@ export function getTransactions(address)
     }))
 
 }
+
+export function getSupporting(address)
+{
+  return (
+    fetch(`${url}/address/supporting/${address}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }))
+}
+export function getSupported(address)
+{
+  return (
+    fetch(`${url}/address/supported/${address}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }))
+
+}
+
+
+export function setType(address, type) {
+  return (
+    fetch(`${url}/address/${address}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({type}),
+    }))
+}
+

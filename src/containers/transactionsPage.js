@@ -7,7 +7,7 @@ import MUICol from 'muicss/lib/react/col'
 
 import styled from 'styled-components'
 
-import {getTransactionsAction} from '../actions/actions'
+import {getTransactionsAction, getSupportsAction} from '../actions/actions'
 import { routerActions } from 'connected-react-router';
 
 
@@ -34,6 +34,7 @@ class TransactionsPage extends React.Component {
   componentDidMount()
   {
     this.props.getTransactions(this.state.address)
+    this.props.getSupports(this.state.address)
   }
 
   render() {
@@ -70,18 +71,51 @@ class TransactionsPage extends React.Component {
     }
 
 
+    let supporting = null
+    let supported = null
+    if (this.props.supports) {
+      supporting = this.props.supports.sing.map(support=>(
+           <Row key={support.addressTo}>
+            <Col md='12'><div>{support.addressTo}</div></Col>
+          </Row>
+      ))
+
+      supported = this.props.supports.sed.map(support=>(
+        <Row key={support.addressFrom}>
+         <Col md='12'><div>{support.addressFrom}</div></Col>
+       </Row>
+   ))
+
+    }    
+
+    
+
     return (
       <Container fluid={true}>
         <Row>
           <Col>Address: {this.state.address}</Col>
         </Row>
         <Row>
+          <Col>Supporting:</Col>
+        </Row>
+        <Row>
+          <ContainerItem>
+            {supporting}
+          </ContainerItem>
+        </Row>
+        <Row>
+          <Col>Supported:</Col>
+        </Row>
+        <Row>
+          <ContainerItem>
+            {supported}
+          </ContainerItem>
+        </Row>
+        <Row>
           <Col>Transactions:</Col>
         </Row>
         <Row>
-
             {transactions}
-
         </Row>
       </Container>
     )
@@ -91,10 +125,14 @@ class TransactionsPage extends React.Component {
 const mapStateToProps = state => {
 
   const root = state && state.root
-  const transactions = root && root.get('current')
+  const transactions = root && root.get('transactions')
+  const supports = root && root.get('supports')
+
   
+
   return { 
-    transactions: transactions && transactions.toJS()
+    transactions: transactions && transactions.toJS(),
+    supports: supports && supports.toJS()
   }
 }
 
@@ -102,6 +140,10 @@ const mapDispatchToProps = dispatch => ({
 
   getTransactions(address) {
     dispatch(getTransactionsAction(address))
+  },
+  getSupports(address)
+  {
+    dispatch(getSupportsAction(address))
   }
 })
 

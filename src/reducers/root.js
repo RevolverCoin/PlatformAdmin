@@ -11,6 +11,9 @@ export default (state = core.INITIAL_STATE, action) => {
     case types.GET_TRANSACTIONS_RESULT:
       return core.handleTransactionsResult(state, action.data)
 
+    case types.GET_SUPPORTS_RESULT:
+    return core.handleSupportsResult(state, action.data)
+
     default:
       return state
   }
