@@ -11,6 +11,7 @@ import {
   getSupported,
   setType,
   removeSupport,
+  createAddress
 } from '../core/api'
 
 import { promiseChainify } from '../utils/utils'
@@ -130,3 +131,16 @@ export function setTypeAction(address, type) {
     dispatch(getAddressesAction())
   }
 }
+
+/**
+ * createAddressAction
+ */
+export function createAddressAction() {
+  return async dispatch => {
+    await createAddress()
+
+    // reload addresses
+    dispatch(getAddressesAction())
+  }
+}
+

@@ -14,7 +14,9 @@ import {
   getInfoAction, 
   supportAction, 
   setTypeAction,
-  removeSupportAction } from '../actions/actions'
+  removeSupportAction,
+  createAddressAction
+} from '../actions/actions'
 
 const Container = styled(MUIContainer)``
 const ContainerAddresses = styled(MUIContainer)`
@@ -56,6 +58,7 @@ class FrontPage extends React.Component {
     this.onSupport = this.onSupport.bind(this)
     this.onSetType = this.onSetType.bind(this)
     this.onRemoveSupport = this.onRemoveSupport.bind(this)
+    this.onCreateAddress = this.onCreateAddress.bind(this)
 
     this.handleInputChange = this.handleInputChange.bind(this)
 
@@ -94,6 +97,11 @@ class FrontPage extends React.Component {
 
   onSetType() {
     this.props.setType(this.state.setTypeAddress, this.state.setTypeSelect)
+  }
+
+  onCreateAddress()
+  {
+    this.props.createAddress()
   }
 
   handleInputChange(event) {
@@ -263,6 +271,21 @@ class FrontPage extends React.Component {
                 </Col>
               </Row>
             </Container>
+
+
+            {/* *************************************************** */}
+            {/* Create Address */}
+            {/* *************************************************** */}
+            <h2>Create Address</h2>
+            <Container>
+              <Row>
+                <Col md="12">
+                  <button onClick={this.onCreateAddress}>CreateAddress</button>
+                </Col>
+              </Row>
+            </Container>
+
+
           </Col>
         </Row>
       </Container>
@@ -311,6 +334,10 @@ const mapDispatchToProps = dispatch => ({
 
   setType(address, type) {
     dispatch(setTypeAction(address, type))
+  },
+  
+  createAddress() {
+    dispatch(createAddressAction())
   }
 })
 

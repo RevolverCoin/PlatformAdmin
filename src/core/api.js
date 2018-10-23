@@ -111,3 +111,14 @@ export function setType(address, type) {
     }))
 }
 
+export function createAddress() {
+  return (
+    fetch(`${url}/address/new`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({type: 'Supporter'}),
+    }))
+}
+
