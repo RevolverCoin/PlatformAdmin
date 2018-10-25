@@ -115,11 +115,12 @@ class FrontPage extends React.Component {
       addressesList = this.props.addresses.map(item => (
         <AddressRow key={item.address}>
           <Col md="5">
-            <Link to={'/address/' + item.address}>{item.address}</Link>
+            <div>{item.address}</div>
           </Col>
+          <Col md="1"><Link to={'/address/' + item.address}>More</Link></Col>
           <Col md="2">{item.type}</Col>
           <Col md="2">{item.balance}</Col>
-          <Col md="3">
+          <Col md="2">
             {item.sing}/{item.sed}
           </Col>
         </AddressRow>
@@ -137,7 +138,7 @@ class FrontPage extends React.Component {
               </Row>
               <Row>
                 <Col md="3">Total Supply</Col>
-                <Col md="8">{this.props.blockHeight * 2}</Col>
+                <Col md="8"></Col>
               </Row>
               <Row>
                 <Col md="3">Service Address</Col>
@@ -154,9 +155,10 @@ class FrontPage extends React.Component {
             <ContainerAddresses>
               <Row>
                 <Col md="5">Address</Col>
+                <Col md="1">More</Col>
                 <Col md="2">Type</Col>
                 <Col md="2">Balance</Col>
-                <Col md="3">Sing/Sed</Col>
+                <Col md="2">Sing/Sed</Col>
               </Row>
 
               {addressesList}
