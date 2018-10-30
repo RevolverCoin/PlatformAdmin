@@ -2,6 +2,7 @@ import * as types from '../constants/actionTypes'
 
 import {
   getInfo,
+  getServiceInfo,
   getAddresses,
   getBalance,
   send,
@@ -31,11 +32,13 @@ export function getInfoAction() {
   }
 }
 
+
 /**
  * getAddresses
  */
 export function getAddressesAction() {
   return async dispatch => {
+
     const addresses = await getAddresses()
     let response = await addresses.json()
 

@@ -22,6 +22,16 @@ export function getAddresses() {
       }))
   }
 
+  export function getServiceInfo() {
+    return (
+      fetch(`${url}/service/info`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }))
+  }
+
 export function getBalance(address) {
   return (
     fetch(`${url}/blockchain/${address}/balance`, {
