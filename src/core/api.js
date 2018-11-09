@@ -1,4 +1,5 @@
 const url = 'http://127.0.0.1:5447'
+//const url = 'http://46.101.154.157:5447'
 
 
 export function getInfo() {
@@ -8,7 +9,7 @@ export function getInfo() {
       headers: {
         'Content-Type': 'application/json',
       },
-    }))
+    })).then(res => res.json())
 }
 
 
@@ -19,7 +20,7 @@ export function getAddresses() {
         headers: {
           'Content-Type': 'application/json',
         },
-      }))
+      })).then(res => res.json())
   }
 
   export function getServiceInfo() {
@@ -29,7 +30,7 @@ export function getAddresses() {
         headers: {
           'Content-Type': 'application/json',
         },
-      }))
+      })).then(res => res.json())
   }
 
 export function getBalance(address) {
@@ -39,7 +40,7 @@ export function getBalance(address) {
       headers: {
         'Content-Type': 'application/json',
       },
-    }))
+    })).then(res => res.json())
 }
 
 export function send(addressFrom, addressTo, amount) {
@@ -50,7 +51,7 @@ export function send(addressFrom, addressTo, amount) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({addressFrom, addressTo, amount}),
-    }))
+    })).then(res => res.json())
 }
 
 export function support(addressFrom, addressTo) {
@@ -61,7 +62,7 @@ export function support(addressFrom, addressTo) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({addressFrom, addressTo}),
-    }))
+    })).then(res => res.json())
 }
 
 export function removeSupport(addressFrom, addressTo) {
@@ -72,7 +73,7 @@ export function removeSupport(addressFrom, addressTo) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({addressFrom, addressTo}),
-    }))
+    })).then(res => res.json())
 }
 
 export function getTransactions(address)
@@ -83,7 +84,7 @@ export function getTransactions(address)
       headers: {
         'Content-Type': 'application/json',
       }
-    }))
+    })).then(res => res.json())
 
 }
 
@@ -95,7 +96,7 @@ export function getSupporting(address)
       headers: {
         'Content-Type': 'application/json',
       }
-    }))
+    })).then(res => res.json())
 }
 export function getSupported(address)
 {
@@ -105,7 +106,7 @@ export function getSupported(address)
       headers: {
         'Content-Type': 'application/json',
       }
-    }))
+    })).then(res => res.json())
 
 }
 
@@ -118,7 +119,7 @@ export function setType(address, type) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({type}),
-    }))
+    })).then(res => res.json())
 }
 
 export function createAddress() {
@@ -129,6 +130,16 @@ export function createAddress() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({type: 'Supporter'}),
-    }))
+    })).then(res => res.json())
 }
 
+export function getTop()
+{
+  return (
+    fetch(`${url}/support/top`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })).then(res => res.json())
+}

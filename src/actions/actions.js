@@ -12,7 +12,8 @@ import {
   getSupported,
   setType,
   removeSupport,
-  createAddress
+  createAddress,
+  getTop
 } from '../core/api'
 
 import { promiseChainify } from '../utils/utils'
@@ -22,8 +23,7 @@ import { promiseChainify } from '../utils/utils'
  */
 export function getInfoAction() {
   return async dispatch => {
-    const addresses = await getInfo()
-    let response = await addresses.json()
+    const response = await getInfo()
 
     dispatch({
       type: types.GET_INFO_RESULT,
@@ -32,16 +32,13 @@ export function getInfoAction() {
   }
 }
 
-
 /**
  * getAddresses
  */
 export function getAddressesAction() {
   return async dispatch => {
-
-    const addresses = await getAddresses()
-    let response = await addresses.json()
-
+    const response = await getAddresses()
+    
     dispatch({
       type: types.GET_ADDRESSES_RESULT,
       data: response.data,
@@ -55,7 +52,9 @@ export function getAddressesAction() {
 export function sendAction(addressFrom, addressTo, amount) {
   return async dispatch => {
     // send
-    await send(addressFrom, addressTo, amount)
+    const result = await send(addressFrom, addressTo, amount)
+
+    console.log(result)
 
     // reload addresses
     dispatch(getAddressesAction())
@@ -67,8 +66,6 @@ export function sendAction(addressFrom, addressTo, amount) {
  */
 export function supportAction(addressFrom, addressTo) {
   return async dispatch => {
-
-    console.log(addressFrom, addressTo)
     await support(addressFrom, addressTo)
 
     // reload addresses
@@ -88,15 +85,13 @@ export function removeSupportAction(addressFrom, addressTo) {
   }
 }
 
-
 /**
  * getTransactionsAction
  */
 export function getTransactionsAction(address) {
   return async dispatch => {
     // send
-    const transactions = await getTransactions(address)
-    const response = await transactions.json()
+    const response = await getTransactions(address)
 
     dispatch({
       type: types.GET_TRANSACTIONS_RESULT,
@@ -110,11 +105,8 @@ export function getTransactionsAction(address) {
  */
 export function getSupportsAction(address) {
   return async dispatch => {
-    const supporting = await getSupporting(address)
-    const sing = await supporting.json()
-
-    const supported = await getSupported(address)
-    const sed = await supported.json()
+    const sing = await getSupporting(address)
+    const sed = await getSupported(address)
 
     dispatch({
       type: types.GET_SUPPORTS_RESULT,
@@ -147,3 +139,16 @@ export function createAddressAction() {
   }
 }
 
+/**
+ * getTop
+ */
+export function getTopAction() {
+  return async dispatch => {
+    const response = await getTop()
+
+    dispatch({
+      type: types.GET_TOP_RESULT,
+      data: response.data,
+    })
+  }
+}

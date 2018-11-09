@@ -9,6 +9,7 @@ export const INITIAL_STATE = fromJS({
   addresses: null,
   transactions: null,
   supports: null,
+  top: null,
 
 })
 
@@ -29,4 +30,9 @@ export function handleTransactionsResult(state,data)
 export function handleSupportsResult(state,data)
 {
   return state.set('supports', fromJS(data))
+}
+
+export function handleGetTopResult(state, data)
+{
+  return state.set('top', fromJS(data))
 }
